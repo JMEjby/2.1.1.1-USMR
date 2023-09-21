@@ -37,7 +37,7 @@ cats <- pets %>% filter(species == "Cat")
 
 The weight of the heaviest cat is `r max(cats$weight_kg)`. The lightest dog weighs `r min(dogs$weight_kg)`.
 
-**Question 6** There are `r `nrow(pets %>% filter(species != "Cat" & species != "Dog"))` that are not dogs. They are both of the species `r levels(as.factor(filter(pets, species != "Cat" & species != "Dog")$species))`.
+**Question 6** There are `r nrow(pets %>% filter(species != "Cat" & species != "Dog"))` pets that are not dogs nor cats. They are both of the species `r levels(as.factor(filter(pets, species != "Cat" & species != "Dog")$species))`.
 
 **Question 7**
 
