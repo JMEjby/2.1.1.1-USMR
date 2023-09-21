@@ -36,21 +36,23 @@ cats <- pets %>% filter(species == "Cat")
 
 The weight of the heaviest cat is `r max(cats\$weight_kg)`. The lightest dog weighs `r min(dogs$weight_kg)`.
 
-**Question 6**
-There are `nrow(pets %>% filter(species != "Cat" & species != "Dog"))` that are not dogs. They are both of the species `rlevels(as.factor(filter(pets, species != "Cat" & species != "Dog")$species))`.
+**Question 6** There are `nrow(pets %>% filter(species != "Cat" & species != "Dog"))` that are not dogs. They are both of the species `rlevels(as.factor(filter(pets, species != "Cat" & species != "Dog")$species))`.
 
 **Question 7**
+
 ```{r}
 pets <- pets %>%
   mutate(round_weight = round(weight_kg,0))
 ```
 
 **Question 8**
+
 ```{r}
 summary(pets)
 ```
 
 **Question 9**
+
 ```{r}
 dice <- function(num = 1) {
   sum(sample(1:6, num, replace=TRUE))
@@ -58,16 +60,19 @@ dice <- function(num = 1) {
 ```
 
 **Question 11**
+
 ```{r}
 dx20 <- replicate(20, dice())
 ```
 
 **Question 12**
+
 ```{r}
 hist(dx20)
 ```
 
 **Question 13**
+
 ```{r}
 d <- data.frame(dx20 = dx20,
                 dx100 =replicate(100, dice()),
@@ -99,6 +104,7 @@ p1/p2
 ```
 
 **Question 15**
+
 ```{r}
 wdice <- function(num = 1){
     sum(sample(1:6, num, replace=TRUE, prob = c(0.15,0.15,0.15,0.15,0.15,0.5)))
@@ -114,4 +120,3 @@ p3<- ggplot(wd2, aes(x=dice, fill = n)) +
 
 p1/p2/p3
 ```
-
