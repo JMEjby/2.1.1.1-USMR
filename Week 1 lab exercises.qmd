@@ -7,6 +7,7 @@ editor: visual
 ```{r}
 library(tidyverse)
 library(patchwork)
+library(ggcats)
 
 pets <- read_csv("https://uoepsy.github.io/data/pets_seattle.csv")
 ```
@@ -74,7 +75,9 @@ d <- data.frame(dx20 = dx20,
 
 p1<-ggplot(d, aes(x=dice, fill = n)) +
   geom_bar() +
-  facet_wrap(~n)
+  facet_wrap(~n) 
+
+p1
 ```
 
 **Question 14**
