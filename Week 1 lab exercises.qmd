@@ -1,13 +1,14 @@
 ---
 title: "Week 1"
-format: html
+format: gfm
 editor: visual
 ---
 
 ```{r}
+knitr::opts_chunk$set(warning=FALSE, message = FALSE)
+
 library(tidyverse)
 library(patchwork)
-library(ggcats)
 
 pets <- read_csv("https://uoepsy.github.io/data/pets_seattle.csv")
 ```
@@ -34,7 +35,7 @@ cats <- pets %>% filter(species == "Cat")
 
 **Question 5**
 
-The weight of the heaviest cat is `r max(cats\$weight_kg)`. The lightest dog weighs `r min(dogs$weight_kg)`.
+The weight of the heaviest cat is `r max(cats$weight_kg)`. The lightest dog weighs `r min(dogs$weight_kg)`.
 
 **Question 6** There are `nrow(pets %>% filter(species != "Cat" & species != "Dog"))` that are not dogs. They are both of the species `rlevels(as.factor(filter(pets, species != "Cat" & species != "Dog")$species))`.
 
