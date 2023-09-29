@@ -3,6 +3,7 @@ title: "Week 2 lab exercises"
 format: gfm
 editor: visual
 ---
+
 **Question 1**
 
 ```{r}
@@ -70,14 +71,9 @@ psy_stat |>
   theme_minimal()
 ```
 
+**Q9** There are `r sum(is.na(psy_stat$height))` missing data points for height
 
-**Q9**
-There are `r sum(is.na(psy_stat$height))` missing data points for height
-
-
-**Q10** 
-There are `r sum(psy_stat$height > 173, na.rm = T)` students taller than me. That is, `r sum(psy_stat$height > 173, na.rm = T) / (nrow(psy_stat) - sum(is.na(psy_stat$height)))*100` %.
-
+**Q10** There are `r sum(psy_stat$height > 173, na.rm = T)` students taller than me. That is, `r sum(psy_stat$height > 173, na.rm = T) / (nrow(psy_stat) - sum(is.na(psy_stat$height)))*100` %.
 
 **Q11**
 
@@ -85,7 +81,6 @@ There are `r sum(psy_stat$height > 173, na.rm = T)` students taller than me. Tha
 sleep_qual <- psy_stat |>
   filter(course == "usmr" & year == 2022 & is.na(sleeprating) == F)
 ```
-
 
 **Q12**
 
@@ -100,6 +95,4 @@ sum <- sleep_qual |>
 sum
 ```
 
-
-**Q13**
-The boundaries of a 95 % confidence interval of the mean sleep rating (`r sum$mean`) is `r sum$mean -1.96*(sum$sd/sqrt(sum$n))` and `r sum$mean + 1.96*(sum$sd/sqrt(sum$n))`
+**Q13** The boundaries of a 95 % confidence interval of the mean sleep rating (`r sum$mean`) is `r sum$mean -1.96*(sum$sd/sqrt(sum$n))` and `r sum$mean + 1.96*(sum$sd/sqrt(sum$n))`
