@@ -1,0 +1,105 @@
+---
+title: "Week 2 lab exercises"
+format: gfm
+editor: visual
+---
+**Question 1**
+
+```{r}
+knitr::opts_chunk$set(warning=FALSE, message = FALSE)
+
+library(tidyverse)
+
+psy_stat <- read_csv("https://uoepsy.github.io/data/surveydata_historical.csv")
+```
+
+**Q2**
+
+There are `r nrow(filter(psy_stat, birthmonth == "jul"))` students born in July like me.
+
+**Q3**
+
+```{r}
+psy_stat <- psy_stat |>
+  mutate(taller = height > 182)
+
+head(psy_stat)
+```
+
+**Q4**
+
+Of those who reported their height `r sum(psy_stat$taller, na.rm = T) / sum(psy_stat$height > 0, na.rm = T) *100` % are taller than 182
+
+**Q5**
+
+```{r}
+psy_stat |>
+  summarise(
+    mean = mean(height, na.rm = T),
+    sd = sd(height, na.rm = T)
+  )
+```
+
+**Q6**
+
+```{r}
+ ggplot(psy_stat, aes(x = height))+
+  geom_histogram(fill = "grey", color = "black", na.rm = T) +
+  labs(x= "Height in cm", y = "Frequency", title = "Figure 1")+
+  theme_minimal()
+```
+
+**Q7**
+
+```{r}
+psy_stat |>
+  group_by(course) |>
+  summarise(
+    mean = mean(height, na.rm = T),
+    sd = sd(height, na.rm = T)
+  )
+```
+
+**Q8**
+
+```{r}
+ ggplot(psy_stat, aes(x = height))+
+  geom_histogram(fill = "grey", color = "black", na.rm = T) +
+  facet_wrap(~course)+
+  labs(x= "Height in cm", y = "Frequency", title = "Figure 1")+
+  theme_minimal()
+```
+
+
+**Q9**
+There are `r sum(is.na(psy_stat$height))` missing data points for height
+
+
+**Q10** 
+There are `r sum(psy_stat$height > 173, na.rm = T)` students taller than me. That is, `r sum(psy_stat$height > 173, na.rm = T) / (nrow(psy_stat) - sum(is.na(psy_stat$height)))*100` %.
+
+
+**Q11**
+
+```{r}
+sleep_qual <- psy_stat |>
+  filter(course == "usmr" & year == 2022 & is.na(sleeprating) == F)
+```
+
+
+**Q12**
+
+```{r}
+sum <- sleep_qual |>
+  summarise(
+    mean = mean(sleeprating),
+    sd = sd(sleeprating),
+    n = n()
+  )
+
+sum
+```
+
+
+**Q13**
+The boundaries of a 95 % confidence interval of the mean sleep rating (`r sum$mean`) is `r sum$mean -1.96*(sum$sd/sqrt(sum$n))` and `r sum$mean + 1.96*(sum$sd/sqrt(sum$n))`
