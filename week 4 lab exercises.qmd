@@ -1,0 +1,116 @@
+---
+title: "Week 4 lab exercises"
+format: gfm
+editor: visual
+---
+
+```{r setup}
+knitr::opts_chunk$set(warning=FALSE, message = FALSE)
+
+library(tidyverse)
+library(lubridate)
+
+surveydata <- 
+  read_csv("https://uoepsy.github.io/data/surveydata_historical.csv")
+```
+
+**Question 1**
+
+I'd have no reason to think people are more likely to be born certain months than others. Let's consult the evidence.
+
+```{r}
+ggplot(filter(surveydata, is.na(surveydata$birthmonth) == F), aes(x = birthmonth))+
+  geom_bar(color = "black", na.rm = T)
+```
+
+Seems pretty uniform to me :)
+
+**Question 2**
+
+```{r}
+table(surveydata$birthmonth)
+```
+
+**Question 3**
+
+```{r}
+expected <- rep(1/12, 12)
+```
+
+**Question 4**
+
+```{r}
+(obs_ex <- surveydata |>
+  filter(!is.na(birthmonth)) |>
+  group_by(birthmonth) |>
+  summarise(
+      observed = n(),
+      expected =sum(!is.na(surveydata$birthmonth))/12,
+      o_e = observed - expected,
+      o_e2 = (o_e)^2,
+      ssd = o_e2/expected,
+  )) 
+
+```
+
+$\chi^2$ = `r sum(obs_ex$ssd)`
+
+**Question 5**
+
+```{r}
+pchisq(sum(obs_ex$ssd), df = 11, lower.tail = F)
+```
+
+```{r}
+chisq.test(table(surveydata$birthmonth))
+```
+
+**Question 6**
+```{r}
+obs_ex
+```
+
+**Question 7**
+
+```{r}
+(kid_col <- data.frame(
+  colour = c(
+    rep("blue",10), 
+    rep("green", 6), 
+    rep("other",3), 
+    rep("purple", 8), 
+    rep("red",8), 
+    rep("yellow",15))))
+
+chisq.test(table(kid_col$colour), p =c(0.2,0.09,0.15,0.11,0.3,0.15))
+```
+
+**Question 8**
+
+```{r}
+table(kid_col$colour)/50
+```
+
+**Question 9**
+
+```{r}
+tips <- read_csv("https://uoepsy.github.io/data/TipJoke.csv")
+
+mosaicplot(table(tips))
+```
+
+**Question 10**
+
+```{r}
+(tip_tab <- table(tips))
+
+e_tips <- rowSums(tip_tab) %o%
+  colSums(tip_tab)/sum(tip_tab)
+```
+
+**Question 11**
+
+```{r}
+chisq.test(tip_tab, p = e_tips/211)
+```
+

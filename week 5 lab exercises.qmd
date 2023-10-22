@@ -1,0 +1,108 @@
+---
+title: "Week 5 lab exercises"
+format: gfm
+editor: visual
+---
+
+```{r setup}
+knitr::opts_chunk$set(warning=FALSE, message = FALSE)
+
+library(tidyverse)
+library(psych)
+
+sleepdata <- 
+  read_csv("https://uoepsy.github.io/data/sleepdtf.csv")
+```
+
+
+**Question 1**
+
+```{r}
+sleepdata <- sleepdata |>
+  mutate(item_4 = 6 - item_4,
+         item_5 = 6 - item_5,
+         item_6 = 6 - item_6,
+         )
+sleepdata$sumscore = 50 - rowSums(sleepdata[, 2:11])
+
+```
+
+
+**Q2**
+
+```{r}
+cor(sleepdata$TST, sleepdata$sumscore)
+```
+
+
+**Q4**
+
+```{r}
+att_data <- read_csv("https://uoepsy.github.io/data/simd20_educ.csv") 
+```
+
+```{r}
+cor.test(att_data$attendance, att_data$attainment)
+```
+
+significant indeed
+
+
+**Q5**
+
+```{r}
+monkey <- read_csv("https://uoepsy.github.io/data/monkeyexplorers.csv")
+```
+
+
+**Q5-6**
+
+```{r}
+pairs.panels(monkey)
+```
+
+
+**Q7-9**
+
+```{r}
+m1 <- lm(exploration_time ~ age, data = monkey)
+
+summary(m1)
+```
+
+**Q10**
+
+```{r}
+ggplot(data = monkey, aes(x = age, y = exploration_time))+
+  geom_point() +
+  stat_smooth(method = "lm", col = "red")
+```
+
+**Q11**
+
+```{r}
+predict.lm(m1, data.frame(age = 1))
+```
+
+
+**Q12**
+
+```{r}
+plot(m1)
+```
+
+```{r}
+monkey[57,]
+range(monkey[-57,]$exploration_time)
+range(monkey$exploration_time)
+
+#monkey 57 is exploring the most but is quite young 5 compared to max age (24)
+
+m2 <- lm(exploration_time ~ age, data = monkey[-57,])
+
+summary(m2)
+```
+
+without 57 it is still significant but smaller effect of age
+
+
